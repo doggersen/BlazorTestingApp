@@ -1,0 +1,36 @@
+﻿@page "/bajerbillard"
+
+<h3>Bajer og Billard</h3>
+
+<input placeholder="Navn på spiller" @bind="newPlayer" />
+
+
+<ul>
+    @foreach (var player in listPlayers)
+    {
+        <li>@player.Name</li>
+    }
+</ul>
+
+@code {
+        int PladsCounter = 1;
+        List<Player> listPlayers = new List<Player>();
+        List<Player> listPlayersGameOver = new List<Player>();
+
+}
+
+@code {
+    private string? newPlayer;
+
+    //private List<TodoItem> todos = new List<TodoItem>();
+
+
+    private void AddTodo()
+    {
+        if (!string.IsNullOrWhiteSpace(newPlayer))
+        {
+            listPlayers.Add(new Player { Name = newPlayer });
+            newPlayer = string.Empty;
+        }
+    }
+}
