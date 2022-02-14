@@ -3,14 +3,16 @@
 <h3>Bajer og Billard</h3>
 
 <input placeholder="Navn på spiller" @bind="newPlayer" />
+<button @onclick="AddPlayer">Tilføj spiller</button>
 
 
 <ul>
     @foreach (var player in listPlayers)
     {
-        <li>@player.Name</li>
+        <li>@player.Name - Points: @player.Point</li>
     }
 </ul>
+
 
 @code {
         int PladsCounter = 1;
@@ -25,12 +27,88 @@
     //private List<TodoItem> todos = new List<TodoItem>();
 
 
-    private void AddTodo()
+    private void AddPlayer()
     {
         if (!string.IsNullOrWhiteSpace(newPlayer))
         {
             listPlayers.Add(new Player { Name = newPlayer });
             newPlayer = string.Empty;
+           
+
         }
     }
 }
+
+@*
+        public void GodeEllerSkaeve()
+        {
+           while (listPlayers.Count > 0) //seems to be of no importance, since the below if-statement ends the loop anyway, by calling the GameOver() method
+            { 
+                foreach (Player p in listPlayers.ToList()) //If you add ".ToList()" to your list (or the results of a LINQ query), you can remove "item" directly from "list" without the dreaded "Collection was modified; enumeration operation may not execute." error.
+                {
+                    if (listPlayers.Count == 1) //en spiller tilbage, spillet slutter. 
+                    {
+                        Winner(p.Name);
+                    }
+                    Console.WriteLine($"{p.Name}, det er din tur.");
+                    Console.Write("skriv '1' for Gode eller '2' for Skæve: ... ");
+                    string userInput = Console.ReadLine();
+                    Console.Write("Skriv hvor mange point du fik: ... ");
+                    int recievedPoints = Convert.ToInt32(Console.ReadLine());
+                    //Gode:
+                    if (userInput == "1")
+                    {
+                        p.Point = p.Point - recievedPoints;
+                        @if (p.Point <= 0) Winner(p.Name);
+                    }
+                    //Skæve:
+                    if (userInput == "2")
+                    {
+                        p.Point = p.Point + recievedPoints;
+                        p.SkaeveAccumulated += recievedPoints;
+                        foreach (Player p2 in listPlayers.ToList()) //If you add ".ToList()" to your list (or the results of a LINQ query), you can remove "item" directly from "list" without the dreaded "Collection was modified; enumeration operation may not execute." error.
+                        {
+                            p2.Point = p2.Point - recievedPoints;
+                            if (p2.Point <= 0) Winner(p2.Name);
+                        }
+                    }
+                    ShowPlayerList();
+                }
+             }
+        }
+
+            void Winner(string name)
+        {
+            Console.WriteLine($"{name}, du kom på {PladsCounter}.pladsen!");
+            var player = listPlayers.FirstOrDefault(x => x.Name == name);
+            player.Plads = PladsCounter;
+            PladsCounter++;
+            listPlayersGameOver.Add(player); //add player to gameover list before being removed!
+            listPlayers.Remove(player);
+            if (listPlayers.Count == 0)
+            {
+                GameOver();
+            }
+        }
+
+            void GameOver()
+        {
+            Console.WriteLine("Samlet status: ");
+            foreach (Player p in listPlayersGameOver)
+            {
+                Console.WriteLine($"{p.Plads}.pladsen: {p.Name} Skæve i alt: {p.SkaeveAccumulated}");
+            }
+            
+            Console.WriteLine("Hvis der skulle startes et nyt spil, ville rækkefølgen være således: ");
+            listPlayersGameOver.Sort((x, y) => y.Plads.CompareTo(x.Plads)); //hvis der byttes rundt på x og y til højre i ligningen, sorteres der "ascending" i stedet for "descending". 
+            foreach (Player p in listPlayersGameOver)
+            {
+                Console.WriteLine($"{p.Name}");
+            }
+            Console.ReadKey();
+            
+        }*@
+
+
+ 
+
