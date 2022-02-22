@@ -5,6 +5,8 @@
 <input placeholder="Navn på spiller" @bind="newPlayer" />
 <button @onclick="AddPlayer">Tilføj spiller</button>
 
+<button @onclick="GodeEllerSkaeve">Start spil!</button>
+
 
 <ul>
     @foreach (var player in listPlayers)
@@ -38,8 +40,8 @@
         }
     }
 }
+@code {
 
-@*
         public void GodeEllerSkaeve()
         {
            while (listPlayers.Count > 0) //seems to be of no importance, since the below if-statement ends the loop anyway, by calling the GameOver() method
@@ -59,7 +61,7 @@
                     if (userInput == "1")
                     {
                         p.Point = p.Point - recievedPoints;
-                        @if (p.Point <= 0) Winner(p.Name);
+                        if (p.Point <= 0) Winner(p.Name);
                     }
                     //Skæve:
                     if (userInput == "2")
@@ -72,7 +74,7 @@
                             if (p2.Point <= 0) Winner(p2.Name);
                         }
                     }
-                    ShowPlayerList();
+                   // ShowPlayerList();
                 }
              }
         }
@@ -107,8 +109,8 @@
             }
             Console.ReadKey();
             
-        }*@
+        }
 
 
- 
+} 
 
